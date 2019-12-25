@@ -23,50 +23,63 @@ int main(){
     getline(cin, choice);
     if (choice == "p"){
         //Game rules
-        cout << "Before you start, here are the rules of the game:" << endl;
+        cout << "Before you start, here are the rules of this game:" << endl;
         cout << "You will have an initial amount of game credits to get started" << endl;
         cout << "You will bet any amount you prefer before the game starts" << endl;
-        cout << "You are gussing a number between 1 and 100" << endl;
+        cout << "You are gussing a number between 1 and 10" << endl;
         cout << "Every time you have guessed the correct number, you will get 10 times the amount you bet!" << endl;
         cout << "If you lose, you will have a chance to bet and guess again." << endl;
         cout << "Easy, right?" << endl;
         cout << "\n\n Let's Get Started!!! \n\n" << endl;
         cout << "Enter the deposit amount to play: " << endl;
-        getline(cin, amountString);
-        stringstream geek(amountString);
-        geek >> amount;        
+        cin >> amount;
     };
     
     do{
-        if (correct)
-            result = 1 + rand() % 100; 
+        cout << "Your current balance is: " << amount << endl;
+        result = 1 + rand() % 10; 
         cout << "Enter your bet: ";
-        getline(cin, betString);
-        stringstream geek(betString) >> bet;
+        cin >> bet;
+        while (bet < 0 || bet > amount){
+            cout << "Please enter a valid amount. Your current balance is: " << amount << endl;
+        };
 
-        cout << "Guess a number between 1 and 100: ";
-        getline(cin, guessString);
-        stringstream geek(guessString);
-        geek >> guess;
+        cout << "Guess a number between 1 and 10: ";
+        cin >> guess;
         
+        while (guess < 0 || guess > 10){
+            cout << "Please put a number within range of 0 to 10: ";
+            cin >> guess;
+        }
+
         if (guess == result){
             cout << "That's correct!" << endl;
             win = bet*10;
             amount = amount + win;
-            cout << "Your current amount is: " << amount << endl;
+            
         } else{
             cout << "Sorry.. good luck next time" << endl;
+            cout << "The correct number is:" << result << endl;
+            amount = amount - bet;
+            if (amount <= 0){
+                cout << "Game over. You have run out of money" << endl;
+                return 0;
+            }
         };
+
+        cout << "_________________________________" << endl;
+        cout << typeid(amount).name() << endl;        
+        cout << typeid(bet).name() << endl;
+        cout << typeid(result).name() << endl;
+        cout << typeid(guess).name() << endl;
+        cout << "_________________________________" << endl;
+
         cout << "Make a choice again:\nplay (p)\nquit (q)\nChoice: " << endl;
-        getline(cin, choice);
-        cout << "Enter your bet: " << endl;
-        getline(cin, betString);
-        stringstream geek(betString);
-        geek >> bet;
+        cin >> choice;
     }while(choice == "p");
 
     if (choice == "q"){
-        cout << "Come back again! Thank you!";
+        cout << "Come back again! Thank you!\n";
         return 0; 
     } else{
         cout << "Invalid input. Plese press p to play or press q to quit.";
